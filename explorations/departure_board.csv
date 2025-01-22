@@ -1,0 +1,91 @@
+Board Type,Transport Type,Line,Destination,Time,Minutes Left
+departure,Länstrafik - Buss,61,Göteborg Heden,2025-01-22 22:03:00,0
+departure,Länstrafik - Spårväg,6,Göteborg Varmfrontsgatan,2025-01-22 22:03:00,0
+departure,Länstrafik - Spårväg,2,Mölndals Innerstad,2025-01-22 22:04:00,1
+departure,Länstrafik - Spårväg,6,Kortedala Aprilgatan (Göteborg kn),2025-01-22 22:04:00,1
+departure,Länstrafik - Buss,61,Masthugget (Göteborg kn),2025-01-22 22:05:00,2
+departure,Länstrafik - Spårväg,6,Kortedala Aprilgatan (Göteborg kn),2025-01-22 22:05:00,2
+departure,Länstrafik - Spårväg,4,Angered centrum (Göteborg kn),2025-01-22 22:06:00,3
+departure,Länstrafik - Spårväg,2,Mölndals Innerstad,2025-01-22 22:06:00,3
+departure,Länstrafik - Buss,X4,Mölnlycke station (Härryda kn),2025-01-22 22:07:00,4
+departure,Länstrafik - Spårväg,8,Göteborg Axel Dahlströms torg,2025-01-22 22:07:00,4
+departure,Länstrafik - Buss,18,Kallebäck (Göteborg kn),2025-01-22 22:07:00,4
+departure,Länstrafik - Spårväg,5,Göteborg Varmfrontsgatan,2025-01-22 22:07:00,4
+departure,Länstrafik - Buss,X4,Kungälv resecentrum,2025-01-22 22:08:00,5
+departure,Länstrafik - Buss,100,Borås Centralstation,2025-01-22 22:08:00,5
+departure,Länstrafik - Spårväg,8,Göteborg Axel Dahlströms torg,2025-01-22 22:09:00,6
+departure,Länstrafik - Spårväg,2,Göteborg Ullevi Norra,2025-01-22 22:09:00,6
+departure,Länstrafik - Buss,18,Körkarlens gata (Göteborg kn),2025-01-22 22:09:00,6
+departure,Länstrafik - Spårväg,2,Göteborg Ullevi Norra,2025-01-22 22:10:00,7
+departure,Länstrafik - Buss,63,Göteborg Heden,2025-01-22 22:11:00,8
+departure,Länstrafik - Spårväg,8,Angered centrum (Göteborg kn),2025-01-22 22:15:00,12
+departure,Länstrafik - Buss,63,Göteborg Linnéplatsen,2025-01-22 22:15:00,12
+departure,Länstrafik - Buss,RÖD,Önneröd (Härryda kn),2025-01-22 22:15:00,12
+departure,Länstrafik - Spårväg,8,Angered centrum (Göteborg kn),2025-01-22 22:16:00,13
+departure,Länstrafik - Buss,18,Kallebäck (Göteborg kn),2025-01-22 22:16:00,13
+departure,Länstrafik - Spårväg,4,Mölndals Innerstad,2025-01-22 22:17:00,14
+departure,Länstrafik - Spårväg,2,Göteborg Linnéplatsen,2025-01-22 22:17:00,14
+departure,Länstrafik - Buss,61,Göteborg Heden,2025-01-22 22:18:00,15
+departure,Länstrafik - Spårväg,2,Göteborg Linnéplatsen,2025-01-22 22:18:00,15
+departure,Länstrafik - Spårväg,6,Göteborg Varmfrontsgatan,2025-01-22 22:18:00,15
+departure,Länstrafik - Buss,18,Körkarlens gata (Göteborg kn),2025-01-22 22:19:00,16
+departure,Länstrafik - Spårväg,6,Göteborg Varmfrontsgatan,2025-01-22 22:20:00,17
+departure,Länstrafik - Spårväg,5,Göteborg Östra sjukhuset,2025-01-22 22:20:00,17
+departure,Länstrafik - Buss,X4,Höga hallar (Härryda kn),2025-01-22 22:22:00,19
+departure,Länstrafik - Buss,300,Göteborg Åkareplatsen,2025-01-22 22:22:00,19
+departure,Länstrafik - Buss,X4,Kungälv resecentrum,2025-01-22 22:23:00,20
+departure,Länstrafik - Buss,RÖD,Lilla Varholmen (Göteborg kn),2025-01-22 22:23:00,20
+departure,Länstrafik - Spårväg,2,Mölndals Innerstad,2025-01-22 22:24:00,21
+departure,Länstrafik - Spårväg,6,Kortedala Aprilgatan (Göteborg kn),2025-01-22 22:24:00,21
+departure,Länstrafik - Buss,61,Masthugget (Göteborg kn),2025-01-22 22:25:00,22
+departure,Länstrafik - Spårväg,6,Kortedala Aprilgatan (Göteborg kn),2025-01-22 22:25:00,22
+departure,Länstrafik - Spårväg,4,Angered centrum (Göteborg kn),2025-01-22 22:26:00,23
+departure,Länstrafik - Spårväg,8,Göteborg Axel Dahlströms torg,2025-01-22 22:26:00,23
+departure,Länstrafik - Buss,63,Göteborg Heden,2025-01-22 22:26:00,23
+departure,Länstrafik - Spårväg,2,Mölndals Innerstad,2025-01-22 22:26:00,23
+departure,Länstrafik - Buss,18,Kallebäck (Göteborg kn),2025-01-22 22:26:00,23
+departure,Länstrafik - Spårväg,5,Göteborg Varmfrontsgatan,2025-01-22 22:27:00,24
+departure,Länstrafik - Spårväg,8,Göteborg Axel Dahlströms torg,2025-01-22 22:28:00,25
+departure,Länstrafik - Spårväg,8,Angered centrum (Göteborg kn),2025-01-22 22:34:00,31
+departure,Länstrafik - Buss,18,Körkarlens gata (Göteborg kn),2025-01-22 22:34:00,31
+departure,Länstrafik - Buss,61,Göteborg Heden,2025-01-22 22:35:00,32
+departure,Länstrafik - Spårväg,8,Angered centrum (Göteborg kn),2025-01-22 22:35:00,32
+departure,Länstrafik - Buss,63,Göteborg Linnéplatsen,2025-01-22 22:35:00,32
+departure,Länstrafik - Spårväg,4,Mölndals Innerstad,2025-01-22 22:37:00,34
+departure,Länstrafik - Spårväg,2,Göteborg Linnéplatsen,2025-01-22 22:37:00,34
+departure,Länstrafik - Buss,X4,Mölnlycke station (Härryda kn),2025-01-22 22:38:00,35
+departure,Länstrafik - Buss,X4,Kungälv resecentrum,2025-01-22 22:38:00,35
+departure,Länstrafik - Spårväg,2,Göteborg Linnéplatsen,2025-01-22 22:38:00,35
+departure,Länstrafik - Spårväg,6,Göteborg Varmfrontsgatan,2025-01-22 22:38:00,35
+departure,Länstrafik - Buss,100,Borås Centralstation,2025-01-22 22:38:00,35
+departure,Länstrafik - Spårväg,5,Göteborg Östra sjukhuset,2025-01-22 22:39:00,36
+departure,Länstrafik - Spårväg,6,Göteborg Varmfrontsgatan,2025-01-22 22:40:00,37
+departure,Länstrafik - Buss,18,Kallebäck (Göteborg kn),2025-01-22 22:41:00,38
+departure,Länstrafik - Buss,300,Kinna station (Mark kn),2025-01-22 22:41:00,38
+departure,Länstrafik - Spårväg,6,Kortedala Aprilgatan (Göteborg kn),2025-01-22 22:44:00,41
+departure,Länstrafik - Buss,61,Masthugget (Göteborg kn),2025-01-22 22:45:00,42
+departure,Länstrafik - Spårväg,4,Angered centrum (Göteborg kn),2025-01-22 22:45:00,42
+departure,Länstrafik - Buss,63,Göteborg Heden,2025-01-22 22:45:00,42
+departure,Länstrafik - Buss,RÖD,Önneröd (Härryda kn),2025-01-22 22:45:00,42
+departure,Länstrafik - Spårväg,6,Kortedala Aprilgatan (Göteborg kn),2025-01-22 22:45:00,42
+departure,Länstrafik - Spårväg,8,Göteborg Axel Dahlströms torg,2025-01-22 22:46:00,43
+departure,Länstrafik - Spårväg,2,Mölndals Innerstad,2025-01-22 22:46:00,43
+departure,Länstrafik - Spårväg,5,Göteborg Varmfrontsgatan,2025-01-22 22:46:00,43
+departure,Länstrafik - Spårväg,8,Göteborg Axel Dahlströms torg,2025-01-22 22:48:00,45
+departure,Länstrafik - Spårväg,2,Mölndals Innerstad,2025-01-22 22:48:00,45
+departure,Länstrafik - Buss,18,Körkarlens gata (Göteborg kn),2025-01-22 22:49:00,46
+departure,Länstrafik - Buss,X4,Höga hallar (Härryda kn),2025-01-22 22:53:00,50
+departure,Länstrafik - Buss,X4,Kungälv resecentrum,2025-01-22 22:53:00,50
+departure,Länstrafik - Buss,101,Göteborg Åkareplatsen,2025-01-22 22:53:00,50
+departure,Länstrafik - Buss,RÖD,Lilla Varholmen (Göteborg kn),2025-01-22 22:53:00,50
+departure,Länstrafik - Spårväg,8,Angered centrum (Göteborg kn),2025-01-22 22:54:00,51
+departure,Länstrafik - Buss,61,Göteborg Heden,2025-01-22 22:55:00,52
+departure,Länstrafik - Spårväg,8,Angered centrum (Göteborg kn),2025-01-22 22:55:00,52
+departure,Länstrafik - Buss,63,Göteborg Linnéplatsen,2025-01-22 22:55:00,52
+departure,Länstrafik - Spårväg,2,Göteborg Linnéplatsen,2025-01-22 22:55:00,52
+departure,Länstrafik - Spårväg,2,Göteborg Linnéplatsen,2025-01-22 22:56:00,53
+departure,Länstrafik - Buss,18,Kallebäck (Göteborg kn),2025-01-22 22:56:00,53
+departure,Länstrafik - Spårväg,4,Mölndals Innerstad,2025-01-22 22:57:00,54
+departure,Länstrafik - Spårväg,6,Göteborg Varmfrontsgatan,2025-01-22 22:58:00,55
+departure,Länstrafik - Spårväg,5,Göteborg Östra sjukhuset,2025-01-22 22:59:00,56
+departure,Länstrafik - Spårväg,6,Göteborg Varmfrontsgatan,2025-01-22 23:00:00,57
