@@ -58,23 +58,23 @@ class ResRobot:
     
     #def station_id(self, city="Göteborg"):
 
-    def get_location_id(location):
+    def get_location_id(self , location):
         url = f"https://api.resrobot.se/v2.1/location.name?input={location}&format=json&accessId={API_KEY}"
 
         result=requests.get(url).json()
         int_res=result.get('stopLocationOrCoordLocation')
         return int(int_res[0]['StopLocation']['extId'])
     
-    def tidtabell_df(stopid):
+    def tidtabell_df(self , stopid):
         url = f"https://api.resrobot.se/v2.1/departureBoard?id={stopid}&format=json&accessId={API_KEY}"
         response = requests.get(url)
         result =response.json()
         return pd.DataFrame(result['Departure'])
     
-    def ddf_timetable2(place_from, place_to):
-        fr_p=get_location_id(place_from)
-        to_p=get_location_id(place_to)
-        url= f"https://api.resrobot.se/v2.1/trip?format=json&originId={fr_p}&destId={to_p}&passlist=true&showPassingPoints=true&accessId={API_KEY}"
+    def df_timetable2(self, place_from, place_to):
+        fr_p=self.get_location_id(place_from)
+        to_p=self.get_location_id(place_to)
+        url= f"https://api.resrobot.se/v2.1/trip?format=json&originId={fr_p}&destId={to_p}&passlist=true&showPassingPoints=true&accessId={self.API_KEY}"
 
         response=requests.get(url).json()
         ex_trip=response['Trip']
