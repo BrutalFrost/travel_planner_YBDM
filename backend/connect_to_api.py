@@ -84,7 +84,7 @@ class ResRobot:
         for timerow in ex_trip:
             st_time=timerow['Origin']['time']
             end_time=timerow['Destination']['time']
-            resexp.append([st_time[:-3], end_time[:-3]])
+            resexp.append([st_time[:-3], end_time[:-3]]) 
 
         return pd.DataFrame(resexp, columns=[place_from, place_to])
 
@@ -92,4 +92,4 @@ class ResRobot:
 if __name__ == "__main__":
     resrobot = ResRobot()
     # pprint(resrobot.timetable_arrival()["Arrival"][0])
-    pprint(resrobot.ddf_timetable2("Göteborg","STockholm"))
+    pprint(resrobot.ddf_timetable2("Tranered","Stockholm"))
