@@ -1,0 +1,115 @@
+/*  modular scale */
+*  modular scale */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+  --ratio: 1.5;
+  --s-5: calc(var(--s-4) / var(--ratio));
+  --s-4: calc(var(--s-3) / var(--ratio));
+  --s-3: calc(var(--s-2) / var(--ratio));
+  --s-2: calc(var(--s-1) / var(--ratio));
+  --s-1: calc(var(--s0) / var(--ratio));
+  --s0: 1rem;
+  --s1: calc(var(--s0) * var(--ratio));
+  --s2: calc(var(--s1) * var(--ratio));
+  --s3: calc(var(--s2) * var(--ratio));
+  --s4: calc(var(--s3) * var(--ratio));
+  --s5: calc(var(--s4) * var(--ratio));
+
+  --primaryColor: #050505;
+  --backgroundColor: #fafafa;
+  --backgroundColorSecondary: #ebebeb;
+}
+
+.stAppViewMain {
+  background-color: var(--backgroundColorSecondary);
+}
+/* lobotomized owl selector to give even margins */
+body * + * {
+  margin-top: var(--s-2);
+  background-color: var(--backgroundColor);
+}
+
+h1,
+h2,
+h3, p, code, td {
+  color: var(--primaryColor);
+}
+
+h1 {
+  font-size: var(--s3);
+}
+
+h2 {
+  font-size: var(--s2);
+}
+
+h3 {
+  font-size: var(--s1);
+}
+
+p {
+  font-size: var(--s0);
+}
+
+[data-testid|="column"] {
+  margin-top: 0; /* counter lobotomized owl */
+  margin-left: var(--s1);
+  color: var(--primaryColor);
+}
+
+[data-testid|="stHeader"] {
+  display: none;
+} 
+
+
+.stDataFrameGlideDataEditor{
+  /* background-color: lightsalmon; */
+  color: var(--primaryColor)
+}
+
+.stAppViewBlockContainer {
+  background-color: var(--backgroundColor); 
+  padding-top: var(--s1);
+  padding-left: var(--s3);
+  padding-right: var(--s3);
+  padding-bottom: var(--s3);
+  max-width: 110ch;
+}
+
+.stImage {
+  align-content: center;
+  margin-left: 25%;
+  max-width: 25%;
+}
+
+
+/* to counter lobotomized owl to remove top margin */
+.stAppViewContainer {
+  margin-top: 0;
+}
+
+div.css-rikpzh.e1tzin5v3{
+  background-color: rgba(28, 131, 225, 0.1);
+  border: 1px solid rgba(28, 131, 225, 0.1);
+  padding: 5% 5% 5% 10%;
+  border-radius: 5px;
+  color: rgb(30, 103, 119);
+  overflow-wrap: break-word;
+}
+/* breakline for metric text		 */
+div.css-1ht1j8u{
+  overflow-wrap: break-word;
+  white-space: break-spaces;
+}
+
+.dataframe th {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.dataframe {
+    width: 70%;
+    margin: auto;
+}
+    
