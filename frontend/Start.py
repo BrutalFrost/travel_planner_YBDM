@@ -11,7 +11,7 @@ import pandas as pd
 def layout():
     # inset start
     st.set_page_config(page_title = "This is a Multipage WebApp") 
-    st.sidebar.success("WHat do you want to do") 
+    st.sidebar.success("What do you want to do") 
     # inset stop
     st.markdown("# The magic travel agent")
    

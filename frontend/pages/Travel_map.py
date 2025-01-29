@@ -7,7 +7,7 @@ from backend.connect_to_api import ResRobot
 resa=ResRobot()
 
 trip_map = TripMap(
-    origin_id=resa.get_location_id("Tranered"), destination_id=resa.get_location_id("Göteborg")
+    origin_id=resa.get_location_id("Tranered"), destination_id=resa.get_location_id("Barnarp")
 )
 
 
