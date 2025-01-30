@@ -1,7 +1,7 @@
 import pandas as pd
-from connect_to_api import ResRobot
+from backend.connect_to_api import ResRobot
 import requests
-import streamlit as st
+#import streamlit as st
 from dotenv import load_dotenv
 import os
 from datetime import datetime
@@ -15,7 +15,7 @@ API_KEY = os.getenv("API_KEY")
 timetable = ResRobot()
 
 # Define location
-location_name = input("Enter the Stop name: ")
+location_name = "Angered Centrum"
 ext_id = timetable.get_location_id(location_name)
 
 if isinstance(ext_id, int):  
