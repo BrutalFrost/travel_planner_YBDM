@@ -2,6 +2,7 @@ altair==5.4.1
 appnope==0.1.4
 asttokens==2.4.1
 attrs==24.2.0
+black==25.1.0
 blinker==1.8.2
 branca==0.8.1
 cachetools==5.5.0
@@ -19,6 +20,7 @@ distlib==0.3.9
 exceptiongroup==1.2.2
 executing==2.0.1
 filelock==3.17.0
+flake8==7.1.1
 folium==0.19.4
 fonttools==4.53.1
 geographiclib==2.0
@@ -40,7 +42,9 @@ markdown-it-py==3.0.0
 markupsafe==2.1.5
 matplotlib==3.9.2
 matplotlib-inline==0.1.7
+mccabe==0.7.0
 mdurl==0.1.2
+mypy-extensions==1.0.0
 narwhals==1.6.2
 nest-asyncio==1.6.0
 nodeenv==1.9.1
@@ -48,6 +52,7 @@ numpy==2.1.0
 packaging==24.1
 pandas==2.2.2
 parso==0.8.4
+pathspec==0.12.1
 pexpect==4.9.0
 pillow==10.4.0
 platformdirs==4.2.2
@@ -59,12 +64,15 @@ psutil==6.0.0
 ptyprocess==0.7.0
 pure-eval==0.2.3
 pyarrow==17.0.0
+pycodestyle==2.12.1
 pydeck==0.9.1
+pyflakes==3.2.0
 pygments==2.18.0
 pyparsing==3.1.4
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2024.1
+pywin32==308
 pyyaml==6.0.2
 pyzmq==26.1.1
 referencing==0.35.1
@@ -80,6 +88,7 @@ streamlit==1.38.0
 streamlit-folium==0.24.0
 tenacity==8.5.0
 toml==0.10.2
+tomli==2.2.1
 tornado==6.4.1
 traitlets==5.14.3
 typing-extensions==4.12.2
