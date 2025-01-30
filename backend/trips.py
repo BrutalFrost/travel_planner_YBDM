@@ -1,6 +1,6 @@
+import pandas as pd
 
 from backend.connect_to_api import ResRobot
-import pandas as pd
 
 resrobot = ResRobot()
 
@@ -28,7 +28,6 @@ class TripPlanner:
     """
 
     def __init__(self, origin_id, destination_id) -> None:
-
         self.trips = resrobot.trips(origin_id, destination_id).get("Trip")
         self.number_trips = len(self.trips)
 
@@ -67,7 +66,5 @@ class TripPlanner:
 
 
 if __name__ == "__main__":
-    data = TripPlanner(
-        740000001, 740098001
-    )
+    data = TripPlanner(740000001, 740098001)
     print(data.next_available_trip()[["arrTime", "depTime", "time", "date"]])
