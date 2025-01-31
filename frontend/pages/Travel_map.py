@@ -9,7 +9,7 @@ resa = ResRobot()
 
 trip_map = TripMap(
     origin_id=resa.get_location_id("Tranered"),
-    destination_id=resa.get_location_id("Göteborg"),
+    destination_id=resa.get_location_id("Barnarp"),
 )
 
 
