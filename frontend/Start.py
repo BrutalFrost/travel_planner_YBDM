@@ -18,6 +18,7 @@ def layout():
     st.markdown("")
 
     img_path = Path(__file__).parents[0] / "Page1figure.jpeg"
+
     img = Image.open(img_path)
     st.image(img, caption="Traveling by YBDM")
     st.markdown("This is an example of the traveling agent ...")
