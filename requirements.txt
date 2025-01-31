@@ -16,7 +16,7 @@ cycler==0.12.1
 debugpy==1.8.5
 decorator==5.1.1
 distlib==0.3.9
-duckdb==1.1.0
+#duckdb==1.1.0
 executing==2.0.1
 filelock==3.17.0
 folium==0.19.4
@@ -58,14 +58,14 @@ protobuf==5.28.0
 psutil==6.0.0
 ptyprocess==0.7.0
 pure-eval==0.2.3
-pyarrow==17.0.0
+#pyarrow==17.0.0
 pydeck==0.9.1
 pygments==2.18.0
 pyparsing==3.1.4
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2024.1
-pywin32==308
+#pywin32==308
 pyyaml==6.0.2
 pyzmq==26.1.1
 referencing==0.35.1
