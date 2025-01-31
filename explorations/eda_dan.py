@@ -1,21 +1,22 @@
-from backend.connect_to_api import ResRobot
-from backend.trips import TripPlanner
-from frontend.plot_maps import TripMap
-from dotenv import load_dotenv
-import folium
-import os 
-import requests
-import pandas as pd 
+# import os
+# import re
 from pprint import pprint
-import re
+
+import folium
+
+# import pandas as pd
+# import requests
 import streamlit as st
+
+# from dotenv import load_dotenv
 from streamlit.components.v1 import html
 
+from backend.connect_to_api import ResRobot
 
+# from backend.trips import TripPlanner
+# from frontend.plot_maps import TripMap
 
-
-#API_KEY= os.getenv("API_KEY")
-
+# API_KEY= os.getenv("API_KEY")
 
 
 mytravel = ResRobot()
@@ -27,7 +28,7 @@ mytravel = ResRobot()
 
 # ----------------
 # b) Find the number of transports arriving to Göteborg centralstationen
-# 
+#
 # x=mytravel.timetable_arrival(location_id=mytravel.get_location_id("Göteborg Centralstation"))
 # print(len(x['Arrival']))
 
@@ -38,36 +39,37 @@ mytravel = ResRobot()
 # print(len(x['Departure']))
 # ----------------
 
-# d) Find the trams departuring from Göteborg centralstationen, their destinations 
-#    and time. Note that trams in Swedish is "spårvagn" or in the dataset denoted 
+# d) Find the trams departuring from Göteborg centralstationen, their destinations
+#    and time. Note that trams in Swedish is "spårvagn" or in the dataset denoted
 #    as "Spårväg".
 
-timetable = mytravel.tidtabell_df(mytravel.get_location_id('Tranered'))
-pattern ='Spårväg'
-x=timetable[timetable['name'].str.contains(pattern, na=False)]
-spec_trav= x[['direction','time','lon','lat','date']]
+timetable = mytravel.tidtabell_df(mytravel.get_location_id("Tranered"))
+pattern = "Spårväg"
+x = timetable[timetable["name"].str.contains(pattern, na=False)]
+spec_trav = x[["direction", "time", "lon", "lat", "date"]]
 
 # ----------------
 
 
 # e) See if you can plot in a map points corresponding to directions of each departuring tram.
-# 
+#
 start_pos = mytravel.get_location_id("Tranered")
 
-end_pos=spec_trav[['direction','lon','lat']].drop_duplicates()
-#mytravel.trips()
+end_pos = spec_trav[["direction", "lon", "lat"]].drop_duplicates()
+# mytravel.trips()
 
 
 geographical_map = folium.Map(
-        location=[end_pos["lat"].mean(), end_pos["lon"].mean()],
-        zoom_start=12,
-    )
+    location=[end_pos["lat"].mean(), end_pos["lon"].mean()],
+    zoom_start=12,
+)
 
-for row in end_pos.itertuples(index=True, name='Row'):
+for row in end_pos.itertuples(index=True, name="Row"):
     pprint()
-    folium.Marker(location=[row.lat, row.lon], 
-              popup=f"{row.direction}<br>",
-              ).add_to(geographical_map)
+    folium.Marker(
+        location=[row.lat, row.lon],
+        popup=f"{row.direction}<br>",
+    ).add_to(geographical_map)
 
 
 html_map = geographical_map._repr_html_()  # Get the map's HTML representation
