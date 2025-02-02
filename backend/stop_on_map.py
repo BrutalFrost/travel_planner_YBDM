@@ -1,53 +1,55 @@
-
 import requests
 import os
 from dotenv import load_dotenv
-from backend.connect_to_api import ResRobot
-from frontend.plot_maps import TripMap
 
-# Load environment variables
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
 
-stop_map = ResRobot()
 
-def get_trip_stops(origin_id, destination_id):
-    """Fetches all stop names between origin and destination, including departure and final stop."""
-    origin_id = stop_map.get_location_id(origin_id)
-    destination_id = stop_map.get_location_id(destination_id)
+def get_location_id(location):
+    url = f"https://api.resrobot.se/v2.1/location.name?input={location}&format=json&accessId={API_KEY}"
+    result = requests.get(url).json()
+    int_res = result.get("stopLocationOrCoordLocation")
+    if int_res:
+        return int(int_res[0]["StopLocation"]["extId"])
+    return None  
 
-    if origin_id is None or destination_id is None:
-        print("Invalid origin or destination")
-        return []
 
-    url = f"https://api.resrobot.se/v2.1/trip?format=json&originId={origin_id}&destId={destination_id}&passlist=true&showPassingPoints=true&accessId={API_KEY}"
+def get_trip_stops(origin, destination):  
+    origin_id = get_location_id(origin)  
+    destination_id = get_location_id(destination)  
 
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        data = response.json()
+    if origin_id is None or destination_id is None:  
+        print("Invalid origin or destination")  
+        return []  
 
-        stops = []
-        for trip in data.get('Trip', []):  # Loop through possible trips
-            for leg in trip.get('LegList', {}).get('Leg', []):  # Loop through legs of the trip
-                if isinstance(leg, dict) and 'Origin' in leg and 'Destination' in leg:
-                    stops.append(leg['Origin']['name'])  # Add departure stop
-                    for stop in leg.get('Stops', {}).get('Stop', []):  # Add intermediate stops
-                        stops.append(stop['name'])
-                    stops.append(leg['Destination']['name'])  # Add final stop
+    url = f"https://api.resrobot.se/v2.1/trip?format=json&originId={origin_id}&destId={destination_id}&passlist=true&showPassingPoints=true&accessId={API_KEY}"  
 
-        stops = list(dict.fromkeys(stops))  # Remove duplicates while maintaining order
-        
-        # Now display the map with these stops using TripMap
-        trip_map = TripMap(origin_id, destination_id)
-        trip_map.display_map()  # Call the method to display the map
-        
-        return stops
+    try:  
+        response = requests.get(url)  
+        response.raise_for_status()  
+        data = response.json()  
 
-    except requests.exceptions.RequestException as err:
-        print(f"Network or HTTP error: {err}")
-        return []
+        stops = []  
+        for trip in data.get("Trip", []):  
+            for leg in trip.get("LegList", {}).get("Leg", []):  
+                if isinstance(leg, dict) and "Origin" in leg and "Destination" in leg:  
+                    if not stops:  
+                        stops.append(leg["Origin"]["name"])  
+                    
+                    for stop in leg.get("Stops", {}).get("Stop", []):  
+                        stops.append(stop["name"])  
 
-# Example usage:
-stops = get_trip_stops("Göteborg Centralstation", "Stockholm Centralstation")
+                    stops.append(leg["Destination"]["name"])  
+
+            break  
+
+        stops = list(dict.fromkeys(stops))  
+
+        return stops  
+
+    except requests.exceptions.RequestException as err:  
+        print(f"Network or HTTP error: {err}")  
+        return []  
+stops = get_trip_stops("Göteborg Centalstation", "Stockholm Centralstation")  
 print(stops)
