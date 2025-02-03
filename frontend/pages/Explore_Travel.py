@@ -20,11 +20,8 @@ def get_location(location):
 
     # Extract the relevant data
     res = result.get("stopLocationOrCoordLocation")
-    # if res is None:
-    #    raise ValueError("No stopLocationOrCoordLocation found in the response")
-
-    # Print the extracted 'res' for debugging
-    print("Extracted 'res':", res)
+    if res is None:
+        raise ValueError("No stopLocationOrCoordLocation found in the response")
 
     # Extract data if 'StopLocation' key exists
     extracted_data = [
