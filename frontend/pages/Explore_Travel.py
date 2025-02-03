@@ -14,11 +14,20 @@ def get_location(location):
     url = f"https://api.resrobot.se/v2.1/location.name?input={location}&format=json&accessId={resa.API_KEY}"
     response = requests.get(url)
     result = response.json()
-    res = result.get("stopLocationOrCoordLocation")
 
+    # Print the entire response for debugging
+    print("Response JSON:", result)
+
+    # Extract the relevant data
+    res = result.get("stopLocationOrCoordLocation")
+    if res is None:
+        raise ValueError("No stopLocationOrCoordLocation found in the response")
+
+    # Extract data if 'StopLocation' key exists
     extracted_data = [
         {"name": stop["StopLocation"]["name"], "stopid": stop["StopLocation"]["extId"]}
         for stop in res
+        if "StopLocation" in stop
     ]
     return pd.DataFrame(extracted_data)
     # ['stopLocationOrCoordLocation']
@@ -36,7 +45,7 @@ def df_timetable_explore(place_from, place_to):
     for timerow in ex_trip:
         st_time = timerow["Origin"]["time"]
         end_time = timerow["Destination"]["time"]
-        numstops = timerow["transferCount"]
+        numstops = timerow.get("transferCount", 0)
         resexp.append([st_time[:-3], end_time[:-3], numstops])
 
     return pd.DataFrame(resexp, columns=[place_from, place_to, "Changes"])
@@ -44,7 +53,7 @@ def df_timetable_explore(place_from, place_to):
 
 def city_select_id(start_location):
     selected_from = None
-    if start_location != "None":
+    if start_location != "None" and start_location != "" and start_location is not None:
         df_from = get_location(start_location)
         if df_from.shape[0] > 0:
             selected_from = st.selectbox(
@@ -69,7 +78,12 @@ stop_location = st.text_input("## Select destination", "None")
 
 sel_stop = city_select_id(stop_location)
 
-if start_location != "None" and stop_location != "None":
+if (
+    start_location != "None"
+    and stop_location != "None"
+    and sel_start is not None
+    and sel_stop is not None
+):
     st.markdown("## Time table")
 
     df = df_timetable_explore(

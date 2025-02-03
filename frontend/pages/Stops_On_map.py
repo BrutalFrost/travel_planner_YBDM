@@ -1,11 +1,14 @@
 import streamlit as st
-from backend.stop_on_map import get_trip_stops, get_location_id
+
+from backend.stop_on_map import get_location_id, get_trip_stops
 from frontend.plot_maps import TripMap
 
 st.title("🚆 Travel Planner")
 
 departure = st.text_input("Enter Departure City", placeholder="Göteborg Centralstation")
-destination = st.text_input("Enter Destination City", placeholder="Stockholm Centralstation")
+destination = st.text_input(
+    "Enter Destination City", placeholder="Stockholm Centralstation"
+)
 
 if st.button("Find Trip Stops"):
     departure_id = get_location_id(departure)
