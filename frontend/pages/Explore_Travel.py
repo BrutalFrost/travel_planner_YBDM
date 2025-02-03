@@ -36,7 +36,7 @@ def df_timetable_explore(place_from, place_to):
     for timerow in ex_trip:
         st_time = timerow["Origin"]["time"]
         end_time = timerow["Destination"]["time"]
-        numstops = timerow["transferCount"]
+        numstops = timerow.get("transferCount", 0)
         resexp.append([st_time[:-3], end_time[:-3], numstops])
 
     return pd.DataFrame(resexp, columns=[place_from, place_to, "Changes"])
