@@ -101,7 +101,7 @@ for pos in trips(start,stop)['Trip'][0]['LegList']['Leg']:
      if pos['name'] != 'Promenad':
         pprint(pos['direction'])
         for put in pos['Stops']['Stop']:
-            pprint(put['name'])
+            pprint(put)
      else:
           pprint(pos['dist'])
      pprint('------------------------------------------------------')
