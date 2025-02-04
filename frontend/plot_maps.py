@@ -44,7 +44,7 @@ class TripMap(Maps):
             ).add_to(geographical_map)
 
         return geographical_map
-    
+
     def _create_map2(self):
         # Sim as abve but diff folium markers
         geographical_map = folium.Map(
@@ -54,19 +54,19 @@ class TripMap(Maps):
 
         coordinates = list(zip(self.next_trip["lat"], self.next_trip["lon"]))
 
-        # Add a polyline to connect the 
+        # Add a polyline to connect the
         folium.PolyLine(
             coordinates,
             color="blue",  # Line color
             weight=5,  # Line thickness
-            opacity=0.7  # Transparency
+            opacity=0.7,  # Transparency
         ).add_to(geographical_map)
 
         first_stop = self.next_trip.iloc[0]
         folium.Marker(
             location=[first_stop["lat"], first_stop["lon"]],
             popup=f"Start: {first_stop['name']}<br>{first_stop['time']}<br>{first_stop['date']}",
-            icon=folium.Icon(color="green", icon="play")  # Green marker for start
+            icon=folium.Icon(color="green", icon="play"),  # Green marker for start
         ).add_to(geographical_map)
 
         # Add marker for the last stop (destination)
@@ -74,7 +74,7 @@ class TripMap(Maps):
         folium.Marker(
             location=[last_stop["lat"], last_stop["lon"]],
             popup=f"Destination: {last_stop['name']}<br>{last_stop['time']}<br>{last_stop['date']}",
-            icon=folium.Icon(color="red", icon="flag")  # Red marker for destination
+            icon=folium.Icon(color="red", icon="flag"),  # Red marker for destination
         ).add_to(geographical_map)
 
         for _, row in self.next_trip.iloc[1:-1].iterrows():  # Exclude first and last
@@ -89,8 +89,6 @@ class TripMap(Maps):
             ).add_to(geographical_map)
 
         return geographical_map
-    
-
 
     def display_map(self):
         st.markdown("## Karta över stationerna i din resa")

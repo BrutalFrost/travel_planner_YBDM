@@ -1,19 +1,17 @@
 # import os
 # import re
 from pprint import pprint
-import requests
-import pandas as pd
 
-import folium
+import requests
+
+from backend.connect_to_api import ResRobot
+
+# from dotenv import load_dotenv
+
 
 # import pandas as pd
 # import requests
-import streamlit as st
 
-# from dotenv import load_dotenv
-from streamlit.components.v1 import html
-
-from backend.connect_to_api import ResRobot
 
 # from backend.trips import TripPlanner
 # from frontend.plot_maps import TripMap
@@ -79,36 +77,30 @@ mytravel = ResRobot()
 # st.markdown("Klicka på varje station för mer information.")
 # html(html_map, height=500)
 
+
 def trips(origin_id=740000001, destination_id=740098001):
-        """origing_id and destination_id can be found from Stop lookup API"""
-        url = f"https://api.resrobot.se/v2.1/trip?format=json&originId={origin_id}&destId={destination_id}&passlist=true&showPassingPoints=true&accessId={mytravel.API_KEY}"
+    """origing_id and destination_id can be found from Stop lookup API"""
+    url = f"https://api.resrobot.se/v2.1/trip?format=json&originId={origin_id}&destId={destination_id}&passlist=true&showPassingPoints=true&accessId={mytravel.API_KEY}"
 
-        try:
-            response = requests.get(url)
-            response.raise_for_status()
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
 
-            return response.json()
-        except requests.exceptions.RequestException as err:
-            print(f"Network or HTTP error: {err}")
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Network or HTTP error: {err}")
 
 
-start=mytravel.get_location_id("tranered")
-stop=mytravel.get_location_id("barnarp")
-#pprint(trips(start,stop)['Trip'][2]['LegList']['Leg'][7]['name'])
-for pos in trips(start,stop)['Trip'][0]['LegList']['Leg']:
-     pprint(pos['name']) 
-     
-     if pos['name'] != 'Promenad':
-        pprint(pos['direction'])
-        for put in pos['Stops']['Stop']:
+start = mytravel.get_location_id("tranered")
+stop = mytravel.get_location_id("barnarp")
+# pprint(trips(start,stop)['Trip'][2]['LegList']['Leg'][7]['name'])
+for pos in trips(start, stop)["Trip"][0]["LegList"]["Leg"]:
+    pprint(pos["name"])
+
+    if pos["name"] != "Promenad":
+        pprint(pos["direction"])
+        for put in pos["Stops"]["Stop"]:
             pprint(put)
-     else:
-          pprint(pos['dist'])
-     pprint('------------------------------------------------------')
-
-
-
-
-
-
-
+    else:
+        pprint(pos["dist"])
+    pprint("------------------------------------------------------")

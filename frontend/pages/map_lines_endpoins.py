@@ -1,10 +1,11 @@
-from backend.connect_to_api import ResRobot
-from frontend.plot_maps import TripMap
-import streamlit as st
 import pandas as pd
 import requests
+import streamlit as st
 
-resa=ResRobot()
+from backend.connect_to_api import ResRobot
+from frontend.plot_maps import TripMap
+
+resa = ResRobot()
 
 
 # get location with maxNo=50 -- needed?
@@ -13,13 +14,19 @@ def get_location(location):
     response = requests.get(url)
     result = response.json()
     res = result.get("stopLocationOrCoordLocation")
-    extracted_data=[]
+    extracted_data = []
 
     for stop in res:
         stop_location = stop.get("StopLocation")
         if stop_location:
-            extracted_data.append({"name": stop["StopLocation"]["name"], "stopid": stop["StopLocation"]["extId"]})
+            extracted_data.append(
+                {
+                    "name": stop["StopLocation"]["name"],
+                    "stopid": stop["StopLocation"]["extId"],
+                }
+            )
     return pd.DataFrame(extracted_data)
+
 
 def city_select_id(start_location):
     selected_from = None
@@ -27,14 +34,16 @@ def city_select_id(start_location):
         df_from = get_location(start_location)
         if df_from.shape[0] > 0:
             selected_from = st.selectbox(
-                label="Select a location",  
+                label="Select a location",
                 options=df_from,
                 label_visibility="collapsed",
             )
 
     return selected_from
 
+
 # ---------------------------------------------------------------------
+
 
 def df_timetable_explore(place_from, place_to):
     resa = ResRobot()
@@ -52,6 +61,7 @@ def df_timetable_explore(place_from, place_to):
         resexp.append([st_time[:-3], end_time[:-3], numstops])
 
     return pd.DataFrame(resexp, columns=[place_from, place_to, "Changes"])
+
 
 # here is the actual map method
 
