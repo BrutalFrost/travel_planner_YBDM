@@ -46,23 +46,15 @@ class TripMap(Maps):
         return geographical_map
     
     def _create_map2(self):
-        # Create a base map centered around the average coordinates
+        # Sim as abve but diff folium markers
         geographical_map = folium.Map(
             location=[self.next_trip["lat"].mean(), self.next_trip["lon"].mean()],
             zoom_start=5,
         )
 
-        # Add markers for each stop
-        # for _, row in self.next_trip.iterrows():
-        #     folium.Marker(
-        #         location=[row["lat"], row["lon"]],
-        #         popup=f"{row['name']}<br>{row['time']}<br>{row['date']}",
-        #     ).add_to(geographical_map)
-
-        # Extract coordinates to draw lines
         coordinates = list(zip(self.next_trip["lat"], self.next_trip["lon"]))
 
-        # Add a polyline to connect the stops
+        # Add a polyline to connect the 
         folium.PolyLine(
             coordinates,
             color="blue",  # Line color
