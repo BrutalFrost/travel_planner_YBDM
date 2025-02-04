@@ -2,18 +2,23 @@ import requests
 from datetime import datetime
 
 
-API_KEY = 'YOUR_API_KEY'
+API_KEY = 'TRAFFICLABS_API_KEY'
 
-# put the id of the current location and destination here 
+# replace with your origin and destination IDs
 origin_id = 'ORIGIN_ID'
 destination_id = 'DESTINATION_ID'
+
+
 url = 'https://api.resrobot.se/v2.1/trip'
+
+
 params = {
     'originId': origin_id,
     'destId': destination_id,
     'format': 'json',
     'accessId': API_KEY
 }
+
 response = requests.get(url, params=params)
 data = response.json()
 
