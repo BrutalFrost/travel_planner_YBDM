@@ -1,9 +1,8 @@
 import streamlit as st
-from testing import get_location_ext_id , calculate_minutes_remaining , fetch_timetable
+from testing import calculate_minutes_remaining, fetch_timetable, get_location_ext_id
 
 
 def main():
-
     st.title("Reseplanerare")
 
     # User input for location
@@ -14,13 +13,15 @@ def main():
             st.markdown("### Available Locations")
             for ext in ext_ids:
                 st.write(f"**{ext['name']}** (extId: {ext['extId']})")
-            
+
             # Allow user to select an extId
-            selected_ext_id = st.selectbox("Select extId for timetable:", [ext['extId'] for ext in ext_ids])
-            
+            selected_ext_id = st.selectbox(
+                "Select extId for timetable:", [ext["extId"] for ext in ext_ids]
+            )
+
             if selected_ext_id:
                 st.markdown(f"Selected extId: **{selected_ext_id}**")
-                
+
                 # Fetch and display timetable
                 timetable_df = fetch_timetable(selected_ext_id)
                 if not timetable_df.empty:

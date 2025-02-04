@@ -1,20 +1,26 @@
-import streamlit as st
-import pandas as pd
 import os
+
+import pandas as pd
 import requests
+import streamlit as st
 from dotenv import load_dotenv
+
 from backend.connect_to_api import ResRobot
-from backend.time_table import (
-    fetch_timetable_departure,
-    fetch_timetable_arrival,
-    calculate_minutes_remaining_depart,
-    calculate_minutes_remaining_arrival,
+from backend.one_hour_ahead import (
+    fetch_arrivals_one_hour_ahead,
+    fetch_departures_one_hour_ahead,
 )
-from backend.one_hour_ahead import fetch_departures_one_hour_ahead, fetch_arrivals_one_hour_ahead
+from backend.time_table import (
+    calculate_minutes_remaining_arrival,
+    calculate_minutes_remaining_depart,
+    fetch_timetable_arrival,
+    fetch_timetable_departure,
+)
 
 # Load API key
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
+
 
 # Function to fetch nearby stops based on an area name
 def get_location(location):
@@ -23,17 +29,21 @@ def get_location(location):
         response = requests.get(url)
         response.raise_for_status()
         result = response.json()
-        return [loc["StopLocation"]["name"] for loc in result.get("stopLocationOrCoordLocation", []) if "StopLocation" in loc]
+        return [
+            loc["StopLocation"]["name"]
+            for loc in result.get("stopLocationOrCoordLocation", [])
+            if "StopLocation" in loc
+        ]
     except requests.exceptions.RequestException as e:
         st.error(f"API request failed: {e}")
         return []
+
 
 # UI Layout
 st.sidebar.success("Your Timetable")
 st.title("🚏 Public Transport Timetable in Minutes")
 st.markdown("Get live departure and arrival times for any stop.")
 
-### **🔹 Main Timetable Search**
 location_name = st.text_input("🔍 Enter Location Name (for live timetable in minutes):")
 
 if location_name:
@@ -45,9 +55,17 @@ if location_name:
 
         if ext_id:
             view_option = st.radio("View:", ["Departures", "Arrivals"], horizontal=True)
-            fetch_func = fetch_timetable_departure if view_option == "Departures" else fetch_timetable_arrival
-            process_func = calculate_minutes_remaining_depart if view_option == "Departures" else calculate_minutes_remaining_arrival
-            
+            fetch_func = (
+                fetch_timetable_departure
+                if view_option == "Departures"
+                else fetch_timetable_arrival
+            )
+            process_func = (
+                calculate_minutes_remaining_depart
+                if view_option == "Departures"
+                else calculate_minutes_remaining_arrival
+            )
+
             # Fetch and process the main timetable
             df = fetch_func(ext_id)
             df = df if isinstance(df, pd.DataFrame) else pd.DataFrame()
@@ -63,32 +81,50 @@ if location_name:
     else:
         st.warning("No stops found for this location.")
 
-### **⏳ One-Hour-Ahead Timetable Search**
 st.markdown("## ⏳ One Hour Ahead Timetable")
 st.markdown("Get live departure and arrival times for any stop.")
-location_name_hour_ahead = st.text_input("🔍 Enter Location Name (for one-hour-ahead timetable):")
+location_name_hour_ahead = st.text_input(
+    "🔍 Enter Location Name (for one-hour-ahead timetable):"
+)
 
 
 if location_name_hour_ahead:
     stops_hour_ahead = get_location(location_name_hour_ahead)
     if stops_hour_ahead:
-        selected_stop_hour_ahead = st.selectbox("Select a Stop for One Hour Ahead:", stops_hour_ahead)
+        selected_stop_hour_ahead = st.selectbox(
+            "Select a Stop for One Hour Ahead:", stops_hour_ahead
+        )
         timetable = ResRobot()
         ext_id_hour_ahead = timetable.get_location_id(selected_stop_hour_ahead)
 
         if ext_id_hour_ahead:
-            view_option_hour_ahead = st.radio("View:", ["Departures", "Arrivals"], horizontal=True, key="hour_ahead_radio")
-            fetch_func_hour = fetch_departures_one_hour_ahead if view_option_hour_ahead == "Departures" else fetch_arrivals_one_hour_ahead
-            
+            view_option_hour_ahead = st.radio(
+                "View:",
+                ["Departures", "Arrivals"],
+                horizontal=True,
+                key="hour_ahead_radio",
+            )
+            fetch_func_hour = (
+                fetch_departures_one_hour_ahead
+                if view_option_hour_ahead == "Departures"
+                else fetch_arrivals_one_hour_ahead
+            )
+
             # Fetch and process one-hour-ahead timetable
             df_one_hour = fetch_func_hour(ext_id_hour_ahead)
-            df_one_hour = df_one_hour if isinstance(df_one_hour, pd.DataFrame) else pd.DataFrame()
+            df_one_hour = (
+                df_one_hour if isinstance(df_one_hour, pd.DataFrame) else pd.DataFrame()
+            )
             if not df_one_hour.empty:
                 df_one_hour = df_one_hour.reset_index(drop=True).astype(str)
-                st.subheader(f"{view_option_hour_ahead} One Hour Ahead for {selected_stop_hour_ahead}")
+                st.subheader(
+                    f"{view_option_hour_ahead} One Hour Ahead for {selected_stop_hour_ahead}"
+                )
                 st.dataframe(df_one_hour)
             else:
-                st.warning(f"No {view_option_hour_ahead.lower()} scheduled one hour ahead for '{selected_stop_hour_ahead}'.")
+                st.warning(
+                    f"No {view_option_hour_ahead.lower()} scheduled one hour ahead for '{selected_stop_hour_ahead}'."
+                )
         else:
             st.error(f"Could not find stop ID for '{selected_stop_hour_ahead}'.")
     else:

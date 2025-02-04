@@ -1,4 +1,5 @@
 import streamlit as st
+
 from frontend.plot_maps import TripMap
 from utils.constants import StationIds
 
