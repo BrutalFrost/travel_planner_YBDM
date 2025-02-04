@@ -15,21 +15,11 @@ def get_location(location):
     res = result.get("stopLocationOrCoordLocation")
     extracted_data=[]
 
-    
-    # "{""icon"":{""res"":""loc_addr""},""id"":""A=2@O=Tranerydsvägen, Korsberga@X=15124081@Y=57310341@U=174@b=980140185@B=1@p=1479298166@"",""lat"":57.310341,""links"":[{""link"":[{""href"":""https://api.resrobot.se/v2.1/location.name?input=Tranerydsv%C3%A4gen%2C+Korsberga&refineId=A%3D2%40O%3DTranerydsv%C3%A4gen%2C+Korsberga%40X%3D15124081%40Y%3D57310341%40U%3D174%40b%3D980140185%40B%3D1%40p%3D1479298166%40&type=A"",""rel"":""refine""}]}],""lon"":15.124081,""name"":""Tranerydsvägen, Korsberga"",""refinable"":true,""type"":""ADR""}"
     for stop in res:
         stop_location = stop.get("StopLocation")
         if stop_location:
             extracted_data.append({"name": stop["StopLocation"]["name"], "stopid": stop["StopLocation"]["extId"]})
-
-    # extracted_data = [
-    #     {"name": stop["StopLocation"]["name"], "stopid": stop["StopLocation"]["extId"]}
-    #     for stop in res
-    # ]
     return pd.DataFrame(extracted_data)
-    # return res
-
-
 
 def city_select_id(start_location):
     selected_from = None
@@ -37,7 +27,7 @@ def city_select_id(start_location):
         df_from = get_location(start_location)
         if df_from.shape[0] > 0:
             selected_from = st.selectbox(
-                label="Select a location",  # Provide a non-empty label
+                label="Select a location",  
                 options=df_from,
                 label_visibility="collapsed",
             )
@@ -63,7 +53,7 @@ def df_timetable_explore(place_from, place_to):
 
     return pd.DataFrame(resexp, columns=[place_from, place_to, "Changes"])
 
-
+# here is the actual map method
 
 # fixing the map
 
@@ -94,8 +84,4 @@ if (
     )
     trip_map.display_map_lines()
 
-    st.markdown(trip_map.next_trip)
     st.sidebar.success("Your travel")
-
-
-
