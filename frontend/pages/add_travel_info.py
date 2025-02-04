@@ -3,6 +3,8 @@ from backend.connect_to_api import ResRobot
 
 resa=ResRobot()
 
+# method for specific starvel with detailed information 
+
 def detailed_travel_info(start, stop):
 
     for pos in resa.trips(start,stop)['Trip'][0]['LegList']['Leg']:
