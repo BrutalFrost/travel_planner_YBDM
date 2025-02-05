@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 
 import requests
 import streamlit as st
@@ -25,7 +24,11 @@ destination_name = st.text_input("Enter Destination Station Name", "Göteborg")
 
 def lookup_station_id(station_name):
     """Lookup station ID using the ResRobot location API."""
-    params = {"input": station_name, "format": "json", "accessId": API_KEY}
+    params = {
+        "input": station_name,
+        "format": "json",
+        "accessId": API_KEY,
+    }
     response = requests.get(STATION_URL, params=params)
     if response.status_code == 200:
         data = response.json()
@@ -33,12 +36,10 @@ def lookup_station_id(station_name):
             stop_location = data["stopLocationOrCoordLocation"][0]["StopLocation"]
             station_id = stop_location["extId"]
             return station_id
-        else:
-            st.write(f"No station ID found for {station_name}.")
-            return None
-    else:
-        st.write("Error:", response.status_code, response.text)
+        st.write(f"No station ID found for {station_name}.")
         return None
+    st.write("Error:", response.status_code, response.text)
+    return None
 
 
 def fetch_train_tickets(origin_id, destination_id):
@@ -58,7 +59,7 @@ def fetch_train_tickets(origin_id, destination_id):
             trips = data["Trip"]
             trip_options = []
 
-            for idx, trip in enumerate(trips):
+            for trip in trips:
                 departure = (
                     trip["LegList"]["Leg"][0]["Origin"]["date"]
                     + " "
@@ -70,15 +71,8 @@ def fetch_train_tickets(origin_id, destination_id):
                     + trip["LegList"]["Leg"][-1]["Destination"]["time"]
                 )
 
-                # Calculate duration
-                departure_dt = datetime.strptime(departure, "%Y-%m-%d %H:%M:%S")
-                arrival_dt = datetime.strptime(arrival, "%Y-%m-%d %H:%M:%S")
-                duration = arrival_dt - departure_dt
-                duration_str = f"{duration.seconds // 3600} hours {((duration.seconds // 60) % 60)} minutes"
-
                 st.write(f"**Departure:** {departure}")
                 st.write(f"**Arrival:** {arrival}")
-                st.write(f"**Duration:** {duration_str}")
                 st.write(f"**Origin:** {trip['LegList']['Leg'][0]['Origin']['name']}")
                 st.write(
                     f"**Destination:** {trip['LegList']['Leg'][-1]['Destination']['name']}"
@@ -97,7 +91,6 @@ def fetch_train_tickets(origin_id, destination_id):
                         {
                             "departure": departure,
                             "arrival": arrival,
-                            "duration": duration_str,
                             "ticket_info": ticket_info,
                             "booking_url": booking_url,
                         }
@@ -128,7 +121,7 @@ def fetch_train_tickets(origin_id, destination_id):
                         f"You're about to book a ticket for the trip from **{selected_ticket['departure']}** to **{selected_ticket['arrival']}**."
                     )
                     st.write(f"Ticket Info: **{selected_ticket['ticket_info']}**")
-                    st.write(f"Click below to complete the booking.")
+                    st.write("Click below to complete the booking.")
                     st.markdown(
                         f"[**Book Now**]({selected_ticket['booking_url']})",
                         unsafe_allow_html=True,
