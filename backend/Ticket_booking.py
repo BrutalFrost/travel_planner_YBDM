@@ -1,4 +1,5 @@
 import os
+
 import requests
 import streamlit as st
 
@@ -104,7 +105,7 @@ def fetch_train_tickets(origin_id, destination_id):
             if trip_options:
                 selected_option = st.selectbox(
                     "Select a ticket to book:",
-                    options=[ 
+                    options=[
                         f"{opt['departure']} - {opt['arrival']} ({opt['ticket_info']})"
                         for opt in trip_options
                     ],
@@ -124,7 +125,7 @@ def fetch_train_tickets(origin_id, destination_id):
                     st.write(f"Ticket Info: **{selected_ticket['ticket_info']}**")
                     st.write("Click below to complete the booking.")
                     st.markdown(
-                        f"[**Book Now**]({selected_ticket['booking_url']})", 
+                        f"[**Book Now**]({selected_ticket['booking_url']})",
                         unsafe_allow_html=True,
                     )
 
