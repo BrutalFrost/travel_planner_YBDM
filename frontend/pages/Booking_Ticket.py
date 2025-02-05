@@ -1,6 +1,7 @@
-import streamlit as st
-import requests
 import os
+
+import requests
+import streamlit as st
 
 API_KEY = os.getenv("TRAFFICLABS_API_KEY")
 if not API_KEY:
@@ -102,7 +103,10 @@ def fetch_train_tickets(origin_id, destination_id):
             if trip_options:
                 selected_option = st.selectbox(
                     "Select a ticket to book:",
-                    options=[f"{opt['departure']} - {opt['arrival']} ({opt['ticket_info']})" for opt in trip_options],
+                    options=[
+                        f"{opt['departure']} - {opt['arrival']} ({opt['ticket_info']})"
+                        for opt in trip_options
+                    ],
                 )
 
                 selected_ticket = trip_options[
