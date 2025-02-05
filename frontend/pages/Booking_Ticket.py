@@ -128,7 +128,7 @@ def fetch_train_tickets(origin_id, destination_id):
                         f"You're about to book a ticket for the trip from **{selected_ticket['departure']}** to **{selected_ticket['arrival']}**."
                     )
                     st.write(f"Ticket Info: **{selected_ticket['ticket_info']}**")
-                    st.write(f"Click below to complete the booking.")
+                    st.write("Click below to complete the booking.")
                     st.markdown(
                         f"[**Book Now**]({selected_ticket['booking_url']})",
                         unsafe_allow_html=True,
