@@ -33,7 +33,7 @@ def get_location(location):
     # ['stopLocationOrCoordLocation']
 
 
-def df_timetable_explore(place_from, place_to):
+def df_timetable_explore(place_from, place_to, fr_name, to_name):
     resa = ResRobot()
     fr_p = resa.get_location_id(place_from)
     to_p = resa.get_location_id(place_to)
@@ -42,13 +42,25 @@ def df_timetable_explore(place_from, place_to):
     response = requests.get(url).json()
     ex_trip = response["Trip"]
     resexp = []
-    for timerow in ex_trip:
-        st_time = timerow["Origin"]["time"]
-        end_time = timerow["Destination"]["time"]
-        numstops = timerow.get("transferCount", 0)
-        resexp.append([st_time[:-3], end_time[:-3], numstops])
+    for trip in ex_trip:
+        for leg in trip["LegList"]["Leg"]:
+            st_time = leg["Origin"]["time"]
+            end_time = leg["Destination"]["time"]
 
-    return pd.DataFrame(resexp, columns=[place_from, place_to, "Changes"])
+            print(f"Leg: {leg}")
+            print(f"Leg Product: {leg['Product']}")
+
+            if isinstance(leg["Product"], list):
+                print(f"Leg Product is a list: {leg['Product']}")
+                product_name = leg["Product"][0][
+                    "name"
+                ]  # Assuming you want the first product
+            else:
+                product_name = leg["Product"]["name"]
+                numstops = trip.get("transferCount", 0)
+                resexp.append([st_time[:-3], end_time[:-3], product_name, numstops])
+
+    return pd.DataFrame(resexp, columns=[fr_name, to_name, "Line", "Changes"])
 
 
 def city_select_id(start_location):
@@ -71,10 +83,10 @@ st.markdown(
     "Den här dashboarden syftar till att både utforska data för olika platser, men ska även fungera som en reseplanerare där du får välja och planera din resa."
 )
 
-start_location = st.text_input("## Select start point", "None")
+start_location = st.text_input("## Select start point", placeholder="Göteborg")
 sel_start = city_select_id(start_location)
 
-stop_location = st.text_input("## Select destination", "None")
+stop_location = st.text_input("## Select destination", placeholder="Angered")
 
 sel_stop = city_select_id(stop_location)
 
@@ -87,7 +99,10 @@ if (
     st.markdown("## Time table")
 
     df = df_timetable_explore(
-        resa.get_location_id(sel_start), resa.get_location_id(sel_stop)
+        resa.get_location_id(sel_start),
+        resa.get_location_id(sel_stop),
+        sel_start,
+        sel_stop,
     )
 
     st.dataframe(df)
