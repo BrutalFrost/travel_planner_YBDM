@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 
 import pandas as pd
 import requests
@@ -46,18 +45,14 @@ def fetch_timetable_arrival(ext_id):
         return pd.DataFrame()
 
 
-def calculate_minutes_remaining_depart(df):
+def depart_time(df):
     if df.empty:
         return df
 
-    current_time = datetime.now()
     df["departure_datetime"] = pd.to_datetime(
         df["date"].astype(str) + " " + df["time"].astype(str)
     )
-    df["minutes_remaining"] = (
-        df["departure_datetime"] - current_time
-    ).dt.total_seconds() // 60
-    df = df[df["minutes_remaining"] >= 0].copy()
+    df["minutes_remaining"] = df["departure_datetime"]
 
     df["name"] = df["name"].str.replace(r"^Länstrafik - ", "", regex=True)
 
@@ -67,21 +62,24 @@ def calculate_minutes_remaining_depart(df):
         else "Unknown"
     )
 
-    return df[["name", "Directed To", "minutes_remaining"]]
+    df["time"] = pd.to_datetime(df["time"], format="%H:%M:%S").dt.strftime(
+        "%H:%M"
+    )  # Show only HH:mm if minutes = 00
+    df.loc[df["time"].str.endswith(":00"), "time"] = pd.to_datetime(
+        df["time"], format="%H:%M"
+    ).dt.strftime("%H:%M")
+
+    return df[["time", "name", "Directed To"]]
 
 
-def calculate_minutes_remaining_arrival(df):
+def arrival_time(df):
     if df.empty:
         return df
 
-    current_time = datetime.now()
     df["arrival_datetime"] = pd.to_datetime(
         df["date"].astype(str) + " " + df["time"].astype(str)
     )
-    df["minutes_remaining"] = (
-        df["arrival_datetime"] - current_time
-    ).dt.total_seconds() // 60
-    df = df[df["minutes_remaining"] >= 0].copy()
+    df["minutes_remaining"] = df["arrival_datetime"]
 
     df["name"] = df["name"].str.replace(r"^Länstrafik - ", "", regex=True)
 
@@ -91,15 +89,28 @@ def calculate_minutes_remaining_arrival(df):
         else df.get("origin", df.get("destination", "Unknown"))
     )
 
-    return df[["name", "From", "minutes_remaining"]]
+    df["time"] = pd.to_datetime(df["time"], format="%H:%M:%S").dt.strftime(
+        "%H:%M"
+    )  # Show only HH:mm if minutes = 00
+    df.loc[df["time"].str.endswith(":00"), "time"] = pd.to_datetime(
+        df["time"], format="%H:%M"
+    ).dt.strftime("%H:%M")
+
+    return df[
+        [
+            "time",
+            "name",
+            "From",
+        ]
+    ]
 
 
 df_depart = fetch_timetable_departure(ext_id)
 df_arrival = fetch_timetable_arrival(ext_id)
 
-df_processed_departure = calculate_minutes_remaining_depart(df_depart)
-df_processed_arrival = calculate_minutes_remaining_arrival(df_arrival)
+df_processed_departure = depart_time(df_depart)
+df_processed_arrival = arrival_time(df_arrival)
+
 
 print(df_processed_departure.head(6))
-
 print(df_processed_arrival.head(6))
