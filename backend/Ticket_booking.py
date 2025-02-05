@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import requests
 
 API_KEY = "TRAFFICLABS_API_KEY"
