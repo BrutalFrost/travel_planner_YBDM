@@ -92,14 +92,10 @@ class TripMap(Maps):
 
     def display_map(self):
         st.markdown("## Karta över stationerna i din resa")
-        st.markdown(
-            "Klicka på varje station för mer information. Detta är en exempelresa mellan Malmö och Umeå"
-        )
+        st.markdown("Klicka på varje station för mer information. ")
         st.components.v1.html(self._create_map()._repr_html_(), height=500)
 
     def display_map_lines(self):
         st.markdown("## Karta över stationerna i din resa")
-        st.markdown(
-            "Klicka på varje station för mer information. Detta är en exempelresa mellan Malmö och Umeå"
-        )
+        st.markdown("Klicka på varje station för mer information. ")
         st.components.v1.html(self._create_map2()._repr_html_(), height=500)

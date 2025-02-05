@@ -6,36 +6,16 @@ import streamlit as st
 from backend.connect_to_api import ResRobot
 from frontend.plot_maps import TripMap
 
-# Move to resBot
-
+resa = ResRobot()
 
 # def get_locations(self, location):
-def get_location(location):
-    url = f"https://api.resrobot.se/v2.1/location.name?input={location}&format=json&accessId={resa.API_KEY}"
-    response = requests.get(url)
-    result = response.json()
 
-    # Print the entire response for debugging
-    print("Response JSON:", result)
-
-    # Extract the relevant data
-    res = result.get("stopLocationOrCoordLocation")
-    if res is None:
-        raise ValueError("No stopLocationOrCoordLocation found in the response")
-
-    # Extract data if 'StopLocation' key exists
-    extracted_data = [
-        {"name": stop["StopLocation"]["name"], "stopid": stop["StopLocation"]["extId"]}
-        for stop in res
-        if "StopLocation" in stop
-    ]
-    return pd.DataFrame(extracted_data)
-    # ['stopLocationOrCoordLocation']
+# ['stopLocationOrCoordLocation']
 
 
 def df_timetable_explore(place_from, place_to):
     resa = ResRobot()
-    url = f"https://api.resrobot.se/v2.1/trip?format=json&originId={place_from}&destId={place_to}&passlist=true&showPassingPoints=true&accessId={resa.API_KEY}"
+    url = f"https://api.resrobot.se/v2.1/trip?format=json&originId={place_from}&destId={place_to}&destWalk=1,0,700,125&passlist=true&showPassingPoints=true&accessId={resa.API_KEY}"
 
     response = requests.get(url).json()
     ex_trip = response["Trip"]
@@ -79,7 +59,7 @@ def extract_origins(data):
 def city_select_id(start_location):
     selected_from = None
     if start_location != "None" and start_location != "" and start_location is not None:
-        df_from = get_location(start_location)
+        df_from = resa.get_location(start_location)
         if df_from.shape[0] > 0:
             selected_from = st.selectbox(
                 label="Select a location",
@@ -90,11 +70,27 @@ def city_select_id(start_location):
     return selected_from
 
 
-resa = ResRobot()
+def detailed_travel_info(start, stop, it):
+    for pos in resa.trips(start, stop)["Trip"][it]["LegList"]["Leg"]:
+        if pos["name"] != "Promenad":
+            st.markdown(f" {pos['name']}  Direction to {pos['direction']}")
+            for put in pos["Stops"]["Stop"]:
+                time = put.get("depTime") or put.get("arrTime")
+                st.markdown(
+                    f"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {put['name']} {time[:-3]}"
+                )
+        else:
+            st.markdown(
+                f"Walk {pos['dist']} meters. WARNING currently displays distance incorrectly but arrival time is still correct"
+            )
+        st.markdown("  ")
+
+
 st.markdown("# Reseplanerare")
 st.markdown(
     "Den här dashboarden syftar till att både utforska data för olika platser, men ska även fungera som en reseplanerare där du får välja och planera din resa."
 )
+
 
 start_location = st.text_input("## Select start point", placeholder="Göteborg")
 sel_start = city_select_id(start_location)
@@ -112,6 +108,7 @@ if (
     st.markdown("## Time table")
     st.markdown("Line, Departure Time, Arrival Time, Amount of Changes")
     st.markdown("Click to expand to get information on changes")
+
     df, ex_trip = df_timetable_explore(
         resa.get_location_id(sel_start),
         resa.get_location_id(sel_stop),
@@ -134,21 +131,20 @@ if (
                 f"{row['Line']}, {row['Departure Time']}, {row['Arrival Time']}, {row['Changes']}"
             ):
                 st.markdown("")
+
                 # pass
-                for i in range(int(row["Changes"])):
-                    st.markdown(f"Switch to {df.loc[a+1, 'Line']}")
 
-                    last_origin = extract_origins(ex_trip[a])[-1]
-                    st.markdown(f"At: {last_origin}")
-                    it += 1
-
+                detailed_travel_info(
+                    start=resa.get_location_id(sel_start),
+                    stop=resa.get_location_id(sel_stop),
+                    it=a,
+                )
         a += 1
 
     trip_map = TripMap(
         origin_id=resa.get_location_id(sel_start),
         destination_id=resa.get_location_id(sel_stop),
     )
-    trip_map.display_map()
+    trip_map.display_map_lines()
 
-    st.markdown(resa.trips)
     st.sidebar.success("Your travel")
