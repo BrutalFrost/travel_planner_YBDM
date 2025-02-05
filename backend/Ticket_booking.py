@@ -26,7 +26,7 @@ if "Trip" in data:
     departure_date = trip["LegList"]["Leg"][0]["Origin"]["date"].replace("-", "")
     departure_time = trip["LegList"]["Leg"][0]["Origin"]["time"].replace(":", "")
 
-    # Generate deep link
+    # Generate deep link for the trip ticket
     deep_link = f"https://reseplanerare.resrobot.se/bin/query.exe/en?S={origin_id}&Z={destination_id}&date={departure_date}&time={departure_time}"
 
     print(f"Trip Link: {deep_link}")
