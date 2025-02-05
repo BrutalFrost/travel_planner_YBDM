@@ -2,7 +2,6 @@ from datetime import datetime
 
 import requests
 
-
 API_KEY = "TRAFFICLABS_API_KEY"
 
 # replace with your origin and destination IDs
