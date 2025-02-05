@@ -33,34 +33,47 @@ def get_location(location):
     # ['stopLocationOrCoordLocation']
 
 
-def df_timetable_explore(place_from, place_to, fr_name, to_name):
+def df_timetable_explore(place_from, place_to):
     resa = ResRobot()
-    fr_p = resa.get_location_id(place_from)
-    to_p = resa.get_location_id(place_to)
-    url = f"https://api.resrobot.se/v2.1/trip?format=json&originId={fr_p}&destId={to_p}&passlist=true&showPassingPoints=true&accessId={resa.API_KEY}"
+    url = f"https://api.resrobot.se/v2.1/trip?format=json&originId={place_from}&destId={place_to}&passlist=true&showPassingPoints=true&accessId={resa.API_KEY}"
 
     response = requests.get(url).json()
     ex_trip = response["Trip"]
     resexp = []
-    for trip in ex_trip:
-        for leg in trip["LegList"]["Leg"]:
-            st_time = leg["Origin"]["time"]
-            end_time = leg["Destination"]["time"]
+    it = 0
+    for timerow in ex_trip:
+        st_time = timerow["Origin"]["time"]
+        end_time = timerow["Destination"]["time"]
 
-            print(f"Leg: {leg}")
-            print(f"Leg Product: {leg['Product']}")
+        numstops = timerow.get("transferCount", 0)
 
-            if isinstance(leg["Product"], list):
-                print(f"Leg Product is a list: {leg['Product']}")
-                product_name = leg["Product"][0][
-                    "name"
-                ]  # Assuming you want the first product
-            else:
-                product_name = leg["Product"]["name"]
-                numstops = trip.get("transferCount", 0)
-                resexp.append([st_time[:-3], end_time[:-3], product_name, numstops])
+        legs = ex_trip[it].get("LegList", {}).get("Leg", [])
+        product_name = ""
+        for leg in legs:
+            product = leg.get("Product")
 
-    return pd.DataFrame(resexp, columns=[fr_name, to_name, "Line", "Changes"])
+            product_name = product[0].get("name", "Unknown Product")
+            if product_name == "Promenad":
+                continue
+            resexp.append([product_name, st_time[:-3], end_time[:-3], numstops])
+
+        it += 1
+
+    return (
+        pd.DataFrame(
+            resexp, columns=["Line", "Departure Time", "Arrival Time", "Changes"]
+        ),
+        ex_trip,
+    )
+
+
+def extract_origins(data):
+    origins = []
+    if "LegList" in data and "Leg" in data["LegList"]:
+        for leg in data["LegList"]["Leg"]:
+            if "Origin" in leg:
+                origins.append(leg["Origin"]["name"])
+    return origins
 
 
 def city_select_id(start_location):
@@ -69,7 +82,7 @@ def city_select_id(start_location):
         df_from = get_location(start_location)
         if df_from.shape[0] > 0:
             selected_from = st.selectbox(
-                label="Select a location",  # Provide a non-empty label
+                label="Select a location",
                 options=df_from,
                 label_visibility="collapsed",
             )
@@ -97,15 +110,39 @@ if (
     and sel_stop is not None
 ):
     st.markdown("## Time table")
-
-    df = df_timetable_explore(
+    st.markdown("Line, Departure Time, Arrival Time, Amount of Changes")
+    st.markdown("Click to expand to get information on changes")
+    df, ex_trip = df_timetable_explore(
         resa.get_location_id(sel_start),
         resa.get_location_id(sel_stop),
-        sel_start,
-        sel_stop,
     )
+    skip_bool = False
+    a = 0
+    for index, row in df.iterrows():
+        if skip_bool:
+            skip_bool = False
+            continue
 
-    st.dataframe(df)
+        if int(row["Changes"]) > 0:
+            skip_bool = True
+        else:
+            skip_bool = False
+        it = 1
+
+        if row["Line"] != "Promenad":
+            with st.expander(
+                f"{row['Line']}, {row['Departure Time']}, {row['Arrival Time']}, {row['Changes']}"
+            ):
+                st.markdown("")
+                # pass
+                for i in range(int(row["Changes"])):
+                    st.markdown(f"Switch to {df.loc[a+1, 'Line']}")
+
+                    last_origin = extract_origins(ex_trip[a])[-1]
+                    st.markdown(f"At: {last_origin}")
+                    it += 1
+
+        a += 1
 
     trip_map = TripMap(
         origin_id=resa.get_location_id(sel_start),
@@ -115,6 +152,3 @@ if (
 
     st.markdown(resa.trips)
     st.sidebar.success("Your travel")
-
-
-# selected = st.selectbox("Where from", options=df_from)
