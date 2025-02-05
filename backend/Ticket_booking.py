@@ -125,10 +125,9 @@ def fetch_train_tickets(origin_id, destination_id):
                     st.write(f"Ticket Info: **{selected_ticket['ticket_info']}**")
                     st.write("Click below to complete the booking.")
                     st.markdown(
-                        f"[**Book Now**]({selected_ticket['booking_url']})",
+                        "[**Book Now**]({selected_ticket['booking_url']})",
                         unsafe_allow_html=True,
                     )
-
         else:
             st.write("No train trips found for the specified route.")
     else:
