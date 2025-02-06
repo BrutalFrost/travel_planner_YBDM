@@ -6,9 +6,7 @@ import streamlit as st
 
 API_KEY = os.getenv("API_KEY")
 if not API_KEY:
-    st.error(
-        "API key not found. Please set the API_KEY environment variable."
-    )
+    st.error("API key not found. Please set the API_KEY environment variable.")
     st.stop()
 
 TRIP_URL = "https://api.resrobot.se/v2.1/trip"
