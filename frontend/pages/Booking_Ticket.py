@@ -1,4 +1,4 @@
-import os
+#import os
 from datetime import datetime
 
 import requests
@@ -10,6 +10,17 @@ API_KEY_RESROBOT = os.getenv("API_KEY")
 if not API_KEY_RESROBOT:
     st.error("API key not found. Please set the API_KEY environment variable.")
 
+from backend.connect_to_api import ResRobot
+
+resa = ResRobot()
+# API_KEY = os.getenv("TRAFFICLABS_API_KEY")
+
+API_KEY = resa.API_KEY
+if not API_KEY:
+    st.error(
+        "API key not found. Please set the TRAFFICLABS_API_KEY environment variable."
+    )
+    st.stop()
 
 TRIP_URL = "https://api.resrobot.se/v2.1/trip"
 STATION_URL = "https://api.resrobot.se/v2.1/location.name"
