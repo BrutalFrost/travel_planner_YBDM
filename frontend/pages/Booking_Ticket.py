@@ -1,13 +1,13 @@
 import os
 from datetime import datetime
-
 import requests
 import streamlit as st
-
-API_KEY = os.getenv("API_KEY")
-if not API_KEY:
+from dotenv import load_dotenv
+load_dotenv()
+API_KEY_RESROBOT = os.getenv("API_KEY")
+if not API_KEY_RESROBOT:
     st.error("API key not found. Please set the API_KEY environment variable.")
-    st.stop()
+    
 
 TRIP_URL = "https://api.resrobot.se/v2.1/trip"
 STATION_URL = "https://api.resrobot.se/v2.1/location.name"
@@ -23,7 +23,7 @@ destination_name = st.text_input("Enter Destination Station Name", "Göteborg")
 
 def lookup_station_id(station_name):
     """Lookup station ID using the ResRobot location API."""
-    params = {"input": station_name, "format": "json", "accessId": API_KEY}
+    params = {"input": station_name, "format": "json", "accessId": API_KEY_RESROBOT}
     response = requests.get(STATION_URL, params=params)
     if response.status_code == 200:
         data = response.json()
@@ -45,7 +45,7 @@ def fetch_train_tickets(origin_id, destination_id):
         "originId": origin_id,
         "destId": destination_id,
         "format": "json",
-        "accessId": API_KEY,
+        "accessId": API_KEY_RESROBOT,
         "transportMode": "train",
     }
 
