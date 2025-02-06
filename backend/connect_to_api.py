@@ -86,6 +86,31 @@ class ResRobot:
 
         return pd.DataFrame(resexp, columns=[place_from, place_to])
 
+    def get_location(self, location):
+        url = f"https://api.resrobot.se/v2.1/location.name?input={location}&format=json&accessId={self.API_KEY}"
+        response = requests.get(url)
+        result = response.json()
+
+        # Print the entire response for debugging
+        print("Response JSON:", result)
+
+        # Extract the relevant data
+        res = result.get("stopLocationOrCoordLocation")
+        if res is None:
+            return self.getlocation(location)
+            raise ValueError("No stopLocationOrCoordLocation found in the response")
+
+        # Extract data if 'StopLocation' key exists
+        extracted_data = [
+            {
+                "name": stop["StopLocation"]["name"],
+                "stopid": stop["StopLocation"]["extId"],
+            }
+            for stop in res
+            if "StopLocation" in stop
+        ]
+        return pd.DataFrame(extracted_data)
+
 
 if __name__ == "__main__":
     resrobot = ResRobot()
