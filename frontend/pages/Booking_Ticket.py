@@ -4,7 +4,7 @@ from datetime import datetime
 import requests
 import streamlit as st
 
-API_KEY = os.getenv("TRAFFICLABS_API_KEY")
+API_KEY = os.getenv("API_KEY")
 if not API_KEY:
     st.error(
         "API key not found. Please set the TRAFFICLABS_API_KEY environment variable."
