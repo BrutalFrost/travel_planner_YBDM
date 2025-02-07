@@ -1,9 +1,10 @@
 from datetime import datetime
 
 import requests
+import streamlit as st
 
 # Replace with your ResRobot API key
-API_KEY = "TRAFFICLABS_API_KEY"
+API_KEY = st.secrets["api"]["API_KEY"]
 
 # Replace with your origin and destination IDs
 origin_id = "ORIGIN_ID"

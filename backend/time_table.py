@@ -1,14 +1,14 @@
-import os
 from datetime import datetime
 
 import pandas as pd
 import requests
+import streamlit as st
 from dotenv import load_dotenv
 
 from backend.connect_to_api import ResRobot
 
 load_dotenv()
-API_KEY = os.getenv("API_KEY")
+API_KEY = st.secrets["api"]["API_KEY"]
 
 timetable = ResRobot()
 location_name = "Angered Centrum"

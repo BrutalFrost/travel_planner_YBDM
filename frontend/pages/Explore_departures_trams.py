@@ -7,11 +7,13 @@ from backend.connect_to_api import ResRobot
 
 # these method are already pushed but not merged
 
+resa = ResRobot()
+
 
 def city_select_id(start_location):
     selected_from = "None"
     if start_location != "None":
-        df_from = get_location(start_location)
+        df_from = resa.get_location(start_location)
         if df_from.shape[0] > 0:
             selected_from = st.selectbox(
                 label="Select a location",  # Provide a non-empty label
@@ -43,27 +45,29 @@ def get_location(location):
 
 def get_depatures_trams(place):
     timetable = resa.tidtabell_df(resa.get_location_id(place))
-    pattern = "Spårväg"
-    x = timetable[timetable["name"].str.contains(pattern, na=False)]
-    x.loc[:, "name"] = x.loc[:, "name"].str.partition(" - ")[2]
-    # x['name']=x['name'].str.split(" - ", 1)[-1]
+    # st.dataframe(pd)
 
-    x.loc[:, "time"] = x.loc[:, "time"].str[:-3]
-    spec_trav = x[["direction", "time", "name"]]
-    return spec_trav
+    timetable_list = timetable.to_dict(orient="records")
+    dep_name = [entry["name"] for entry in timetable_list if "Spårväg" in entry["name"]]
+    dep_dir = [
+        entry["direction"] for entry in timetable_list if "Spårväg" in entry["name"]
+    ]
+    dep_time = [entry["time"] for entry in timetable_list if "Spårväg" in entry["name"]]
+    xyz = pd.DataFrame({"name": dep_name, "direction": dep_dir, "time": dep_time})
+
+    return xyz
 
 
 ##################
 
 
-resa = ResRobot()
 st.markdown("# Explore Tram Departures from a location")
 st.markdown(
     "This Dashboard shows departing trams from a location. It will show the destinations of the trams"
 )
 
 start_location = st.text_input("## Select start point", "None")
-sel_start = city_select_id(start_location)
+sel_start = resa.city_select_id(start_location)
 
 # st.markdown(sel_start)
 if sel_start != "None":

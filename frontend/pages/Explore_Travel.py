@@ -80,9 +80,7 @@ def detailed_travel_info(start, stop, it):
                     f"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {put['name']} {time[:-3]}"
                 )
         else:
-            st.markdown(
-                f"Walk {pos['dist']} meters. WARNING currently displays distance incorrectly but arrival time is still correct"
-            )
+            st.markdown(f"Walk {pos['dist']} meters.")
         st.markdown("  ")
 
 
@@ -93,11 +91,11 @@ st.markdown(
 
 
 start_location = st.text_input("## Select start point", placeholder="Göteborg")
-sel_start = city_select_id(start_location)
+sel_start = resa.city_select_id(start_location)
 
 stop_location = st.text_input("## Select destination", placeholder="Angered")
 
-sel_stop = city_select_id(stop_location)
+sel_stop = resa.city_select_id(stop_location)
 
 if (
     start_location != "None"
@@ -116,15 +114,18 @@ if (
     skip_bool = False
     a = 0
     for index, row in df.iterrows():
+        # To stop a bug from creating more expanders than 5 since that breaks the code. Do not remove.
+        if a >= 5:
+            break
+
+        # To skip the next row if the current row has a change, ensuring it doesn't treat each change as an idividual trip.
         if skip_bool:
             skip_bool = False
             continue
-
         if int(row["Changes"]) > 0:
             skip_bool = True
         else:
             skip_bool = False
-        it = 1
 
         if row["Line"] != "Promenad":
             with st.expander(
@@ -145,6 +146,7 @@ if (
         origin_id=resa.get_location_id(sel_start),
         destination_id=resa.get_location_id(sel_stop),
     )
+    # Rendering map
     trip_map.display_map_lines()
 
     st.sidebar.success("Your travel")
