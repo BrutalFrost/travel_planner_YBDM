@@ -90,6 +90,7 @@ toml==0.10.2
 tomli==2.2.1
 tornado==6.4.1
 traitlets==5.14.3
+-e .
 typing-extensions==4.12.2
 tzdata==2024.1
 urllib3==2.2.2
@@ -97,3 +98,5 @@ virtualenv==20.29.1
 watchdog==4.0.2
 wcwidth==0.2.13
 xyzservices==2025.1.0
+pywin32==308; platform_system == "Windows"
+pywinpty==2.0.12
