@@ -1,3 +1,6 @@
+import sys
+from pathlib import Path
+
 import pandas as pd
 import requests
 import streamlit as st
@@ -6,10 +9,9 @@ import streamlit as st
 from backend.connect_to_api import ResRobot
 from frontend.plot_maps import TripMap
 
-resa = ResRobot()
-
+sys.path.append(str(Path(__file__).parents[2]))
 # def get_locations(self, location):
-
+resa = ResRobot()
 # ['stopLocationOrCoordLocation']
 
 
