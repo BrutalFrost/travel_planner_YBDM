@@ -9,8 +9,8 @@ setup(
     This package is used for travel planning in public transpoirt.
     It has backend, frontend and utils.
     """,
-    author="Kokchun Giang",
-    author_email="cool_email842jjeld@gmail.com",
+    author="Hampus E, Yassine, Mosen, Dan",
+    author_email="",
     install_requires=[
         "streamlit",
         "pandas",
@@ -18,6 +18,8 @@ setup(
         "folium",
         "python-dotenv",
     ],
-    packages=find_packages(exclude=["test*", "explorations"]),
+    packages=find_packages(
+        include=["backend", "frontend", "utils"], exclude=["test*", "explorations"]
+    ),
     entry_points={"console_scripts": ["dashboard = utils.run_dashboard:run_dashboard"]},
 )
