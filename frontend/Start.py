@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 # import matplotlib.image as mpimg
@@ -5,6 +6,8 @@ from pathlib import Path
 # mport pandas as pd
 import streamlit as st
 from PIL import Image
+
+sys.path.append(str(Path(__file__).parents[1]))
 
 
 def layout():
