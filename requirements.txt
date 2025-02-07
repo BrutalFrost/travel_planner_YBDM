@@ -98,5 +98,3 @@ virtualenv==20.29.1
 watchdog==4.0.2
 wcwidth==0.2.13
 xyzservices==2025.1.0
-pywin32==308; platform_system == "Windows"
-pywinpty==2.0.12
