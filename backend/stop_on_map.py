@@ -1,10 +1,9 @@
-import os
-
 import requests
+import streamlit as st
 from dotenv import load_dotenv
 
 load_dotenv()
-API_KEY = os.getenv("API_KEY")
+API_KEY = st.secrets["api"]["API_KEY"]
 
 
 def get_location_id(location):

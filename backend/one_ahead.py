@@ -1,15 +1,18 @@
-import os
 from datetime import datetime
 
 import pandas as pd
 import pytz  # Handle time zones
 import requests
-from connect_to_api2 import ResRobot
+import streamlit as st
+
+# from connect_to_api2 import ResRobot
 from dotenv import load_dotenv
+
+from backend.connect_to_api import ResRobot
 
 # Load environment variables
 load_dotenv()
-API_KEY = os.getenv("API_KEY")
+API_KEY = st.secrets["api"]["API_KEY"]
 
 # Initialize ResRobot
 timetable = ResRobot()

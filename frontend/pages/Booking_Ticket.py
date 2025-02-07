@@ -1,4 +1,3 @@
-import os
 from datetime import datetime
 
 import requests
@@ -6,7 +5,7 @@ import streamlit as st
 from dotenv import load_dotenv
 
 load_dotenv()
-API_KEY_RESROBOT = os.getenv("API_KEY")
+API_KEY_RESROBOT = st.secrets["api"]["API_KEY"]
 if not API_KEY_RESROBOT:
     st.error("API key not found. Please set the API_KEY environment variable.")
 

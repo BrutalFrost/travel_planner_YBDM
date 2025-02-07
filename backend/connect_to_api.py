@@ -1,8 +1,8 @@
-import os
 from pprint import pprint
 
 import pandas as pd
 import requests
+import streamlit as st
 from dotenv import load_dotenv
 
 #######################################
@@ -16,7 +16,7 @@ load_dotenv()
 
 class ResRobot:
     def __init__(self):
-        self.API_KEY = os.getenv("API_KEY")
+        self.API_KEY = st.secrets["api"]["API_KEY"]
 
     def trips(self, origin_id=740000001, destination_id=740098001):
         """origing_id and destination_id can be found from Stop lookup API"""
@@ -110,6 +110,23 @@ class ResRobot:
             if "StopLocation" in stop
         ]
         return pd.DataFrame(extracted_data)
+
+    def city_select_id(self, start_location):
+        selected_from = None
+        if (
+            start_location != "None"
+            and start_location != ""
+            and start_location is not None
+        ):
+            df_from = self.get_location(start_location)
+            if df_from.shape[0] > 0:
+                selected_from = st.selectbox(
+                    label="Select a location",
+                    options=df_from,
+                    label_visibility="collapsed",
+                )
+
+        return selected_from
 
 
 if __name__ == "__main__":
